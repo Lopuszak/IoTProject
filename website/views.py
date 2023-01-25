@@ -9,7 +9,14 @@ def index():
     employee_list = Employee.query.all()
     return render_template('index.html', employee_list = employee_list)
 
-@views.route('/logs')
+@views.route('/all_logs')
+def all_logs():
+    
+    logs = Log.query.all()
+    return render_template('all_logs.html', logs=logs)
+
+
+@views.route('/logs/<card_id>')
 def logs():
     card_id = request.args.get('card_id')
     employee = Employee.query.filter_by(card_id=card_id).first()
