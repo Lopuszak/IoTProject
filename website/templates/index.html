@@ -1,12 +1,41 @@
 {% extends "base.html" %} {% block title %}Home{% endblock %}
 {% block content%}
 <body>
-    <h1>Welcome to Employee Time Register</h1>
-    <form action="{{ url_for('views.logs') }}" method="get">
-        <label for="card_id">Card ID:</label>
-        <input type="text" id="card_id" name="card_id" required>
-        <br>
-        <input type="submit" value="View Logs">
-    </form>
+    <div class="container">
+        <h1 align="center">Welcome to Employee Time Register</h1>
+          <form method="GET">
+            <div class="row">
+              <div class="col-4">
+              </div>
+              <div class="col-4">
+                <input type="text" class="form-control" name="employee_id" id="employee_id" placeholder="Employee id" required>
+              </div>
+              <div class="col-4">
+                <button type="submit"  name="view logs" class="btn btn-info">View logs</button>
+              </div>
+              <div class="col-4">
+            </div>
+            </div>
+          </form>
+          <div>
+            <p>
+      
+            </p>
+          </div>
+          <div>
+            <div class="list-group">
+              {% for id in employee_list%}
+              <div>
+                <a href="/logs/id" class="list-group-item list-group-item-action">
+                  Employee id = {{ id}}
+                </a>
+              </div>
+              {% endfor %}
+              <div align="center">
+                <!-- <img src="/static/shopping_cart.png" class="img-fluid" alt="Responsive image"> -->
+              </div>
+            </div>
+          </div>
+      </div>
 </body>
 {% endblock %}
