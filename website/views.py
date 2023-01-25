@@ -1,8 +1,5 @@
 import json
-from wtforms.fields import DateField
-from wtforms import validators, SubmitField
 from flask import Blueprint, render_template, request, flash, jsonify
-from flask_wtf import FlaskForm
 from .models import *
 
 views = Blueprint('views', __name__)
