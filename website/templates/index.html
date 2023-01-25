@@ -1,0 +1,12 @@
+{% extends "base.html" %} {% block title %}Home{% endblock %}
+{% block content%}
+<body>
+    <h1>Welcome to Employee Time Register</h1>
+    <form action="{{ url_for('views.logs') }}" method="get">
+        <label for="card_id">Card ID:</label>
+        <input type="text" id="card_id" name="card_id" required>
+        <br>
+        <input type="submit" value="View Logs">
+    </form>
+</body>
+{% endblock %}

@@ -1,0 +1,20 @@
+<!-- logs.html -->
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Logs</title>
+</head>
+<body>
+    <h1>Logs</h1>
+    <table>
+        <tr>
+            <th>Time</th>
+        </tr>
+        {% for log in logs %}
+        <tr>
+            <td>{{ log.time }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+</body>
+</html>
