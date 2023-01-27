@@ -12,9 +12,10 @@ from datetime import datetime, timedelta
 # from mfrc522 import MFRC522
 # from config import *
 # import RPi.GPIO as GPIO
-import lib.oled.SSD1331 as SSD1331
+# import lib.oled.SSD1331 as SSD1331
 from PIL import Image, ImageDraw, ImageFont
 
+ARIAL = ImageFont.truetype('fonts/arial.ttf')
 
 def formated_print(mytime):
     return f'{mytime.hour}:{mytime.minute}:{mytime.second},{mytime.microsecond}'

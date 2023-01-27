@@ -11,9 +11,15 @@ def index():
 
 @views.route('/all_logs')
 def all_logs():
-    
     logs = Log.query.all()
     return render_template('all_logs.html', logs=logs)
+
+
+@views.route('/group_logs')
+def group_logs():
+    logs_dict = db.session.query(Employee.name, Employee.card_id, func.count(Log.id)).join(Employee, Log.card_id == Employee.card_id).group_by(Employee.name).all()
+    print(logs_dict)
+    return render_template('group_logs.html', logs=logs_dict)
 
 
 @views.route('/logs/<card_id>')

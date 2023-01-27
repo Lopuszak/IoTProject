@@ -24,10 +24,10 @@ def process_message(client, userdata, message):
 
     # Print message to console.
     print(log_time + " | " + card_id + " used the RFID card.")
-
+    print(type(card_id))
     connention = sqlite3.connect("employees.db")
     cursor = connention.cursor()
-    cursor.execute("SELECT * FROM log WHERE card_id = (?)", (card_id))
+    cursor.execute("SELECT * FROM log WHERE card_id = (?)", [card_id])
     log_entries = cursor.fetchall()
     if len(log_entries) % 2 == 0:
         print('dzien dobry')
@@ -79,12 +79,12 @@ def print_log_to_window():
 
 def connect_to_broker():
     # Connect to the broker.
-    client.connect(broker)
+    client.connect(broker, keepalive=600)
     # Send message about conenction.
     client.on_message = process_message
     # Starts client and subscribe.
     client.loop_start()
-    client.subscribe("id/card")
+    client.subscribe("id/card",2)
 
 
 def disconnect_from_broker():

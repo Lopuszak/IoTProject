@@ -9,7 +9,7 @@ class Employee(db.Model):
 class Log(db.Model):
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     card_id = db.Column(db.String(20), db.ForeignKey('employee.card_id'))
-    time = db.Column(db.String(20))
+    time = db.Column(db.String(40))
 
     def __str__(self):
-        return "Log.%d of %s at %s" % (self.id, self.card_id, self.time)
+        return "log: %d id_card: %s time: %s" % (self.id, self.card_id, self.time)
