@@ -25,3 +25,16 @@ def logs():
         return render_template('logs.html', logs=logs)
     else:
         return 'Employee not found'
+
+@views.route('/logs/avg/<card_id>')
+def avg():
+    card_id = request.args.get('card_id')
+    employee = Employee.query.filter_by(card_id=card_id).first()
+    if employee:
+        logs = Log.query.filter_by(card_id=card_id).all()
+
+        
+
+        return render_template('avgs.html', logs=logs)
+    else:
+        return 'Employee not found'
