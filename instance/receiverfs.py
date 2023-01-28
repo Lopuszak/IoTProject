@@ -12,8 +12,11 @@ broker = "localhost"
 
 # The MQTT client.
 client = mqtt.Client()
+
+
 # Thw main window.
 # window = tkinter.Tk()
+
 
 def process_message(client, userdata, message):
     # Decode message.
@@ -37,7 +40,7 @@ def process_message(client, userdata, message):
     connention = sqlite3.connect("employees.db")
     cursor = connention.cursor()
     cursor.execute("INSERT INTO log (card_id, time) VALUES (?, ?)",
-                       (card_id, log_time))
+                   (card_id, log_time))
     connention.commit()
     connention.close()
 
@@ -52,7 +55,7 @@ def print_log_to_window():
 
     for log_entry in log_entries:
         labels_log_entry.append(tkinter.Label(print_log_window, text=(
-            "On %s, %s used the terminal" % (log_entry[0], log_entry[1]))))
+                "On %s, %s used the terminal" % (log_entry[0], log_entry[1]))))
 
     for label in labels_log_entry:
         label.pack(side="top")
@@ -84,7 +87,7 @@ def connect_to_broker():
     client.on_message = process_message
     # Starts client and subscribe.
     client.loop_start()
-    client.subscribe("id/card",2)
+    client.subscribe("id/card", 2)
 
 
 def disconnect_from_broker():
@@ -95,7 +98,7 @@ def disconnect_from_broker():
 
 def run_receiver():
     connect_to_broker()
-    #this
+    # this
     inp = ""
     while inp != "exit":
         inp = input()

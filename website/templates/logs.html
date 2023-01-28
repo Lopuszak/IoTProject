@@ -1,14 +1,14 @@
-{% extends "base.html" %} {% block title %}All_Logs{% endblock %} {% block content%}
+{% extends "base.html" %} {% block title %}All_Logs{% endblock %} {% block content %}
     <div class="container">
-      <h1 align="center">Employee Logs</h1>
-      <ul class="list-group list-group-flush" id="notifications">
-        {% for log in logs %}
-        <li class="list-group-item">
-          {{ log.__str__() }}
-        </li>
-        <div class="divider"></div>
-        {% endfor %}
-      </ul>
+        <h1 align="center">Employee Logs</h1>
+        <ul class="list-group list-group-flush" id="notifications">
+            {% for log in logs %}
+                <li class="list-group-item">
+                    {{ log.__str__() }}
+                </li>
+                <div class="divider"></div>
+            {% endfor %}
+        </ul>
     </div>
 {% endblock %}
     

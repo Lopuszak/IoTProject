@@ -16,7 +16,6 @@ broker = "localhost"
 client = mqtt.Client()
 
 
-
 def call_worker(worker_name):
     client.publish("id/name", worker_name + "@" + terminal_id, )
 
@@ -54,9 +53,8 @@ def publish(card_id, timestamp):
 
 if __name__ == "__main__":
     # rfid = RFID()
-    #TODO UNCOMMENT
-    #rfid = MainController()
-
+    # TODO UNCOMMENT
+    # rfid = MainController()
 
     # run_sender() this leave commeted
     connect_to_broker()
