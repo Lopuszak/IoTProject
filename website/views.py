@@ -1,6 +1,7 @@
 import json
 from flask import Blueprint, redirect, render_template, request, flash, jsonify, url_for
 from .models import *
+from datetime import datetime, timedelta, date
 
 views = Blueprint('views', __name__)
 
@@ -63,3 +64,34 @@ def avg(card_id):
         return render_template('avg.html', logs=logs)
     else:
         return 'Employee not found'
+
+
+@views.route('/average_daily_work_time_and_total_days/<employee_id>', methods=['GET'])
+def average_daily_work_time_and_total_days(employee_id):
+    logs = Log.query.filter_by(card_id=employee_id).order_by(Log.time).all()
+    work_time_by_day = {}
+    current_day = None
+    time_in = None
+    for log in logs:
+        log_time = datetime.strptime(log.time, '%Y-%m-%d %H:%M:%S.%f')
+
+        if current_day is None or current_day != log_time.date():
+            current_day = log_time.date()
+            time_in = None
+
+        if time_in is None:
+            time_in = log_time.time()
+        else:
+            time_out = log_time.time()
+            if current_day in work_time_by_day:
+                work_time_by_day[current_day] += datetime.combine(date.today(), time_out) - datetime.combine(date.today(), time_in)
+            else:
+                work_time_by_day[current_day] = datetime.combine(date.today(), time_out) - datetime.combine(date.today(), time_in)
+            time_in = None
+
+    total_work_time = timedelta()
+    for day in work_time_by_day:
+        total_work_time += work_time_by_day[day]
+    average_work_time = total_work_time / len(work_time_by_day)
+
+    return jsonify(average_work_time=str(average_work_time), total_days=str(len(work_time_by_day)))
