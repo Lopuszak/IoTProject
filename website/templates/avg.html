@@ -1,7 +1,4 @@
 {% extends "base.html" %} {% block title %}Group logs{% endblock %} {% block content%}
-<link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
-<script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
-<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 
 <nav class="navbar navbar-expand navbar-dark bg-primary"> <a href="#menu-toggle" id="menu-toggle" class="navbar-brand"><span class="navbar-toggler-icon"></span></a> <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExample02" aria-controls="navbarsExample02" aria-expanded="false" aria-label="Toggle navigation"> <span class="navbar-toggler-icon"></span> </button>
     <div class="collapse navbar-collapse" id="navbarsExample02">
@@ -14,7 +11,6 @@
 </nav>
 
 <div id="wrapper" class="toggled">
-    <!-- Sidebar -->
     <div id="sidebar-wrapper">
         <div class="form-group">
             <label for="howLong">Example select</label>
@@ -37,22 +33,4 @@
     <div class="col-6"></div>
   </div>
 </div>
-<script src="js/jquery.min.js"></script>
-<script src="js/bootstrap.bundle.min.js"></script> <!-- Menu Toggle Script -->
-<script>
-  $(function(){
-    $("#menu-toggle").click(function(e) {
-        e.preventDefault();
-        $("#wrapper").toggleClass("toggled");
-    });
-    $(window).resize(function(e) {
-      if($(window).width()<=768){
-        $("#wrapper").removeClass("toggled");
-      }else{
-        $("#wrapper").addClass("toggled");
-      }
-    });
-  });
-   
-</script>
 {% endblock %}

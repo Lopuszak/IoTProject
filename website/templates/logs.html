@@ -4,10 +4,9 @@
       <ul class="list-group list-group-flush" id="notifications">
         {% for log in logs %}
         <li class="list-group-item">
-          <div class="alert alert-light shadow" role="alert">
-            {{ log.__str__() }}
-          </div>
+          {{ log.__str__() }}
         </li>
+        <div class="divider"></div>
         {% endfor %}
       </ul>
     </div>
