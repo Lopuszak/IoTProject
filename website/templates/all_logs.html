@@ -1,31 +1,29 @@
-{% extends "base.html" %} {% block title %}All_Logs{% endblock %} {% block content %}
-    <div class="container">
-
-        <h1 align="center">All Logs</h1>
-        <section class="float-left" style="width: 18%; height: auto;">
-            <div class="form-group">
-                <label for="how_long">Perioud</label>
-                <div class="list-group" name="how_long">
-                    <button type="button" class="list-group-item list-group-item-action" id="">All time</button>
-                    <button type="button" class="list-group-item list-group-item-action">Today</button>
-                    <button type="button" class="list-group-item list-group-item-action">Yesterday</button>
-                    <button type="button" class="list-group-item list-group-item-action">Last 7 days</button>
-                    <button type="button" class="list-group-item list-group-item-action">This month</button>
-                    <button type="button" class="list-group-item list-group-item-action">Previous month</button>
-                    <button type="button" class="list-group-item list-group-item-action">This year</button>
-                </div>
-            </div>
-        </section>
-        <section class="float-right" style="width: 80%; height: auto;">
-            <ul class="list-group list-group-flush" id="notifications">
-                {% for log in logs %}
-                    <li class="list-group-item">
-                        {{ log.__str__() }}
-                    </li>
-                    <div class="divider"></div>
-                {% endfor %}
-            </ul>
-        </section>
-    </div>
+{% extends "base.html" %} {% block title %}All_Logs{% endblock %} {% block content%}  
+<div class="container">
+  
+  <h1 align="center">All Logs</h1>
+  <section class="float-left" style="width: 18%; height: auto;">
+    <form method="POST">
+      <div class="list-group" name="how_long">
+        <button type="submit" class="list-group-item list-group-item-action" name="time" id="time" value="all_time">All time</button>
+        <button type="submit" class="list-group-item list-group-item-action" name="time" id="time" value="today">Today</button>
+        <button type="submit" class="list-group-item list-group-item-action" name="time" id="time" value="yesterday">Yesterday</button>
+        <button type="submit" class="list-group-item list-group-item-action" name="time" id="time" value="this_month">This month</button>
+        <button type="submit" class="list-group-item list-group-item-action" name="time" id="time" value="prev_month">Previous month</button>
+        <button type="submit" class="list-group-item list-group-item-action" name="time" id="time" value="this_year">This year</button>
+      </div>
+    </form>
+  </section>
+  <section class="float-right" style="width: 80%; height: auto;">
+    <ul class="list-group list-group-flush" id="notifications">
+      {% for log in logs %}
+      <li class="list-group-item">
+          {{ log.__str__() }}
+      </li>
+      <div class="divider"></div>
+      {% endfor %}
+    </ul>
+  </section>
+</div>
 {% endblock %}
     

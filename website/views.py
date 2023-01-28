@@ -1,3 +1,4 @@
+from datetime import date, timedelta
 import json
 from flask import Blueprint, redirect, render_template, request, flash, jsonify, url_for
 from .models import *
@@ -29,9 +30,28 @@ def index():
     return render_template('index.html', employee_list=employee_list)
 
 
-@views.route('/all_logs')
+@views.route('/all_logs', methods=['GET', 'POST'])
 def all_logs():
     logs = Log.query.all()
+    if request.method == 'POST':
+        print(request.form)
+        if request.form["time"] == "today":
+            search = "%{}%".format(date.today().strftime("%Y-%m-%d"))
+            logs = Log.query.filter(Log.time.ilike(search)).all()
+        elif request.form["time"] == "yesterday":
+            search = "%{}%".format((date.today() - timedelta(1)).strftime("%Y-%m-%d"))
+            print(search)
+            logs = Log.query.filter(Log.time.ilike(search)).all()
+        elif request.form["time"] == "this_month":
+            search = "%{}%".format(date.today().strftime("%Y-%m"))
+            logs = Log.query.filter(Log.time.ilike(search)).all()
+        elif request.form["time"] == "prev_month":
+            search = "%{}%".format((date.today()- timedelta(31)).strftime("%Y-%m"))
+            logs = Log.query.filter(Log.time.ilike(search)).all()
+        elif request.form["time"] == "this_year":
+            search = "%{}%".format(date.today().strftime("%Y"))
+            logs = Log.query.filter(Log.time.ilike(search)).all()
+            
     return render_template('all_logs.html', logs=logs)
 
 
@@ -44,11 +64,30 @@ def group_logs():
     return render_template('group_logs.html', logs=logs_dict)
 
 
-@views.route('/logs/<employee_id>')
+@views.route('/logs/<employee_id>', methods=['GET', 'POST'])
 def logs(employee_id):
     employee = Employee.query.filter_by(card_id=employee_id).first()
     if employee:
         logs = Log.query.filter_by(card_id=employee_id).all()
+        if request.method == 'POST':
+            print(request.form)
+            if request.form["time"] == "today":
+                search = "%{}%".format(date.today().strftime("%Y-%m-%d"))
+                logs = Log.query.filter(Log.time.ilike(search)).filter_by(card_id=employee_id).all()
+            elif request.form["time"] == "yesterday":
+                search = "%{}%".format((date.today() - timedelta(1)).strftime("%Y-%m-%d"))
+                print(search)
+                logs = Log.query.filter(Log.time.ilike(search)).all()
+            elif request.form["time"] == "this_month":
+                search = "%{}%".format(date.today().strftime("%Y-%m"))
+                logs = Log.query.filter(Log.time.ilike(search)).all()
+            elif request.form["time"] == "prev_month":
+                search = "%{}%".format((date.today()- timedelta(31)).strftime("%Y-%m"))
+                logs = Log.query.filter(Log.time.ilike(search)).all()
+            elif request.form["time"] == "this_year":
+                search = "%{}%".format(date.today().strftime("%Y"))
+                logs = Log.query.filter(Log.time.ilike(search)).all()
+                
         return render_template('logs.html', logs=logs)
     else:
         return 'Employee not found'
