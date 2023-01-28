@@ -17,6 +17,7 @@ from PIL import Image, ImageDraw, ImageFont
 
 ARIAL = ImageFont.truetype('fonts/arial.ttf')
 
+
 def formated_print(mytime):
     return f'{mytime.hour}:{mytime.minute}:{mytime.second},{mytime.microsecond}'
 
@@ -38,7 +39,7 @@ class RFID:
                     self.initial_time = curr_time
                     num = 0
                     for i in range(0, len(uid)):
-                        num += uid[i] << (i*8)
+                        num += uid[i] << (i * 8)
                     return num
                 else:  # this is after sth called nesting
                     self.is_being_read = False
@@ -73,6 +74,7 @@ class LedController:
             self.pixels.fill(Color.green)
             self.pixels.show()
             time.sleep(self.animation_speed)
+
 
 class Oled:
     def __init__(self):

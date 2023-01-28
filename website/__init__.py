@@ -5,8 +5,9 @@ from flask import Flask, render_template, request
 from flask_sqlalchemy import SQLAlchemy
 
 DB_NAME = "employees.db"
-        
+
 db = SQLAlchemy()
+
 
 def create_app():
     app = Flask(__name__)
@@ -17,7 +18,6 @@ def create_app():
     from .views import views
 
     app.register_blueprint(views, url_prefix='/')
-
     create_database(app)
 
     return app
@@ -28,4 +28,3 @@ def create_database(app):
         db.init_app(app)
         with app.app_context():
             db.create_all()
-
