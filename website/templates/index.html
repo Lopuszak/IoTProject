@@ -3,12 +3,12 @@
 <body>
     <div class="container">
         <h1 align="center">Welcome to Employee Time Register</h1>
-          <form method="GET">
+          <form method="POST">
             <div class="row">
               <div class="col-4">
               </div>
               <div class="col-4">
-                <input type="text" class="form-control" name="employee_id" id="employee_id" placeholder="Employee id" required>
+                <input type="text" class="form-control" name="search_id" id="search_id" placeholder="Employee id" required>
               </div>
               <div class="col-4">
                 <button type="submit"  name="view logs" class="btn btn-info">View logs</button>
@@ -24,12 +24,50 @@
           </div>
           <div>
             <div class="list-group">
-              {% for id in employee_list%}
-              <div>
-                <a href="/logs/id" class="list-group-item list-group-item-action">
-                  employee_id = {{ id }}
-                </a>
+              {% for employee in employee_list%}
+              <div class="alert alert-light shadow" role="alert">
+                <div class="row">
+                <div class="col-11">
+                  <a href="/logs/{{employee.card_id}}" class="list-group-item list-group-item-action">
+                    {{ employee.__str__() }}
+                  </a>
+                </div>
+                <div class="col-1">
+                    <button type="button" class="btn btn-info" data-toggle="modal" data-target="#editEmployee" data-id="{{employee.card_id}}" data-name="{{employee.name}}">
+                        Edit
+                    </button>
+                    <!-- Modal edit employee-->
+                    <div class="modal fade" id="editEmployee" tabindex="-1" aria-labelledby="editEmployeeLabel" aria-hidden="true">
+                        <div class="modal-dialog">
+                          <div class="modal-content">
+                            <div class="modal-header">
+                              <h5 class="modal-title" id="editEmployeeLabel">Edit employee data</h5>
+                              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                              </button>
+                              </div>
+                              <form role="form" method="POST" class="form-horizontal">
+                                <div class="modal-body">
+                                  <label for="employee_id" class="form-label">Card id</label>
+                                  <input type="text" class="form-control" id="employee_id" name="employee_id" readonly>
+                                  <label for="employee_name" class="form-label">Name</label>
+                                  <input type="text" class="form-control" id="employee_name" name="employee_name" required>
+                                </div>
+                                <div class="modal-footer">
+                                    <div align="center">
+                                        <div align="center">
+                                            <button type="submit" name="employee" class="btn btn-info">Save</button>
+                                            <button type="button" class="btn btn-secondary" data-dismiss="modal" >Dismiss</button>
+                                        </div>
+                                    </div>
+                                </div>
+                              </form>
+                          </div>
+                        </div>
+                    </div>
+                </div>
               </div>
+            </div>
               {% endfor %}
               <div align="center">
                 <!-- <img src="/static/shopping_cart.png" class="img-fluid" alt="Responsive image"> -->
@@ -38,4 +76,14 @@
           </div>
       </div>
 </body>
+<script>
+  $('#editEmployee').on('show.bs.modal', function (event) {
+  var button = $(event.relatedTarget) 
+  var employee_id = button.data('id')
+  var name = button.data('name')
+  var modal = $(this)
+  modal.find('#employee_id').val(employee_id)
+  modal.find('#employee_name').val(name)
+})
+</script>
 {% endblock %}
