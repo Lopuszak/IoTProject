@@ -22,11 +22,22 @@
         <section class="float-left" style="width: 60%; height: auto;">
             <ul class="list-group list-group-flush">
                 <li class="list-group-item">
-                            <h4>Average time of work: </h4><p> {{ avg_time }}</p>
+                            <h4>Average time of work: </h4><p> {{ avg_time }} h</p>
 
                 </li>
                 <li class="list-group-item">
                             <h4>Total days at work: </h4> <p> {{ total_days}}</p>
+                </li>
+                <li class="list-group-item">
+                    <h4>Days at work: </h4> 
+                    <ul class="list-group">
+                        {% for day in work_time_by_day %}
+                        <li class="list-group-item">
+                          {{ day }} : {{ work_time_by_day[day] }} h
+                        </li>
+                        <div class="divider"></div>
+                        {% endfor %}
+                    </ul>
                 </li>
               </ul>
         </section>   

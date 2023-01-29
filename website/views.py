@@ -151,11 +151,13 @@ def average_daily_work_time_and_total_days(employee_id):
                     work_time_by_day[current_day] = datetime.combine(date.today(), time_out) - datetime.combine(date.today(), time_in)
                 time_in = None
         total_work_time = timedelta()
+        total_days = 0
         for day in work_time_by_day:
             total_work_time += work_time_by_day[day]
+            total_days += 1
         average_work_time = total_work_time / len(work_time_by_day)
 
-        return render_template('avg.html', avg_time=average_work_time, total_days=work_time_by_day)
+        return render_template('avg.html', avg_time=average_work_time, total_days=total_days, work_time_by_day=work_time_by_day)
     else:
         return render_template('avg.html', avg_time=0, total_days=0)
     # return jsonify(average_work_time=str(average_work_time), total_days=str(len(work_time_by_day)))
