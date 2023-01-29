@@ -70,7 +70,8 @@ def logs(employee_id):
     if employee:
         logs = Log.query.filter_by(card_id=employee_id).all()
         if request.method == 'POST':
-            print(request.form)
+            if 'avg' in request.form:
+                return redirect('/average_daily_work_time_and_total_days/' + str(employee_id))
             if request.form["time"] == "today":
                 search = "%{}%".format(date.today().strftime("%Y-%m-%d"))
                 logs = Log.query.filter(Log.time.ilike(search)).filter_by(card_id=employee_id).all()
@@ -93,44 +94,68 @@ def logs(employee_id):
         return 'Employee not found'
 
 
-@views.route('/logs/avg/<card_id>')
-def avg(card_id):
-    card_id = request.args.get('card_id')
-    card_id = '<Employee ' + str(card_id) + '>'
-    employee = Employee.query.filter_by(card_id=card_id).first()
-    if employee:
-        logs = Log.query.filter_by(card_id=card_id).all()
-        return render_template('avg.html', logs=logs)
-    else:
-        return 'Employee not found'
+# @views.route('/logs/avg/<card_id>')
+# def avg(card_id):
+#     card_id = request.args.get('card_id')
+#     card_id = '<Employee ' + str(card_id) + '>'
+#     employee = Employee.query.filter_by(card_id=card_id).first()
+#     if employee:
+#         logs = Log.query.filter_by(card_id=card_id).all()
+#         return render_template('avg.html', logs=logs)
+#     else:
+#         return 'Employee not found'
 
 
-@views.route('/average_daily_work_time_and_total_days/<employee_id>', methods=['GET'])
+@views.route('/average_daily_work_time_and_total_days/<employee_id>', methods=['GET', 'POST'])
 def average_daily_work_time_and_total_days(employee_id):
     logs = Log.query.filter_by(card_id=employee_id).order_by(Log.time).all()
+
+    if request.method == 'POST':
+        if 'avg' in request.form:
+            return redirect('/average_daily_work_time_and_total_days/' + str(employee_id))
+        if request.form["time"] == "today":
+            search = "%{}%".format(date.today().strftime("%Y-%m-%d"))
+            logs = Log.query.filter(Log.time.ilike(search)).filter_by(card_id=employee_id).all()
+        elif request.form["time"] == "yesterday":
+            search = "%{}%".format((date.today() - timedelta(1)).strftime("%Y-%m-%d"))
+            print(search)
+            logs = Log.query.filter(Log.time.ilike(search)).all()
+        elif request.form["time"] == "this_month":
+            search = "%{}%".format(date.today().strftime("%Y-%m"))
+            logs = Log.query.filter(Log.time.ilike(search)).all()
+        elif request.form["time"] == "prev_month":
+            search = "%{}%".format((date.today()- timedelta(31)).strftime("%Y-%m"))
+            logs = Log.query.filter(Log.time.ilike(search)).all()
+        elif request.form["time"] == "this_year":
+            search = "%{}%".format(date.today().strftime("%Y"))
+            logs = Log.query.filter(Log.time.ilike(search)).all()
+
     work_time_by_day = {}
     current_day = None
     time_in = None
-    for log in logs:
-        log_time = datetime.strptime(log.time, '%Y-%m-%d %H:%M:%S.%f')
+    if logs:
+        for log in logs:
+            log_time = datetime.strptime(log.time, '%Y-%m-%d %H:%M:%S.%f')
 
-        if current_day is None or current_day != log_time.date():
-            current_day = log_time.date()
-            time_in = None
+            if current_day is None or current_day != log_time.date():
+                current_day = log_time.date()
+                time_in = None
 
-        if time_in is None:
-            time_in = log_time.time()
-        else:
-            time_out = log_time.time()
-            if current_day in work_time_by_day:
-                work_time_by_day[current_day] += datetime.combine(date.today(), time_out) - datetime.combine(date.today(), time_in)
+            if time_in is None:
+                time_in = log_time.time()
             else:
-                work_time_by_day[current_day] = datetime.combine(date.today(), time_out) - datetime.combine(date.today(), time_in)
-            time_in = None
+                time_out = log_time.time()
+                if current_day in work_time_by_day:
+                    work_time_by_day[current_day] += datetime.combine(date.today(), time_out) - datetime.combine(date.today(), time_in)
+                else:
+                    work_time_by_day[current_day] = datetime.combine(date.today(), time_out) - datetime.combine(date.today(), time_in)
+                time_in = None
+        total_work_time = timedelta()
+        for day in work_time_by_day:
+            total_work_time += work_time_by_day[day]
+        average_work_time = total_work_time / len(work_time_by_day)
 
-    total_work_time = timedelta()
-    for day in work_time_by_day:
-        total_work_time += work_time_by_day[day]
-    average_work_time = total_work_time / len(work_time_by_day)
-
-    return jsonify(average_work_time=str(average_work_time), total_days=str(len(work_time_by_day)))
+        return render_template('avg.html', avg_time=average_work_time, total_days=work_time_by_day)
+    else:
+        return render_template('avg.html', avg_time=0, total_days=0)
+    # return jsonify(average_work_time=str(average_work_time), total_days=str(len(work_time_by_day)))

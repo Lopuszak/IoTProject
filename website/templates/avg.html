@@ -1,42 +1,36 @@
-{% extends "base.html" %} {% block title %}Group logs{% endblock %} {% block content %}
+{% extends "base.html" %} {% block title %}All_Logs{% endblock %} {% block content%}  
+<h1 align="center">Employee statistics</h1>
+<div class="container">
+    <section class="float-left" style="width: 17%; height: auto;">
+        <div>
+            <img src="/static/statistics.png" class="img-fluid " alt="Responsive image">
+        </div>
+    </section>
+    <section>
+        <section class="float-right" style="width: 18%; height: auto;">
+            <form method="POST">
+              <div class="list-group" name="how_long">
+                <button type="submit" class="list-group-item list-group-item-action" name="time" id="time" value="all_time">All time</button>
+                <button type="submit" class="list-group-item list-group-item-action" name="time" id="time" value="today">Today</button>
+                <button type="submit" class="list-group-item list-group-item-action" name="time" id="time" value="yesterday">Yesterday</button>
+                <button type="submit" class="list-group-item list-group-item-action" name="time" id="time" value="this_month">This month</button>
+                <button type="submit" class="list-group-item list-group-item-action" name="time" id="time" value="prev_month">Previous month</button>
+                <button type="submit" class="list-group-item list-group-item-action" name="time" id="time" value="this_year">This year</button>
+              </div>
+            </form>
+        </section>
+        <section class="float-left" style="width: 60%; height: auto;">
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item">
+                            <h4>Average time of work: </h4><p> {{ avg_time }}</p>
 
-    <nav class="navbar navbar-expand navbar-dark bg-primary"><a href="#menu-toggle" id="menu-toggle"
-                                                                class="navbar-brand"><span
-            class="navbar-toggler-icon"></span></a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExample02"
-                aria-controls="navbarsExample02" aria-expanded="false" aria-label="Toggle navigation"><span
-                class="navbar-toggler-icon"></span></button>
-        <div class="collapse navbar-collapse" id="navbarsExample02">
-            <ul class="navbar-nav mr-auto">
-                <li class="nav-item active"><a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
                 </li>
-                <li class="nav-item"><a class="nav-link" href="#">Link</a></li>
-            </ul>
-            <form class="form-inline my-2 my-md-0"></form>
-        </div>
-    </nav>
-
-    <div id="wrapper" class="toggled">
-        <div id="sidebar-wrapper">
-            <div class="form-group">
-                <label for="howLong">Example select</label>
-                <select class="form-control" id="howLong" name="howLong">
-                    <option>This month</option>
-                    <option>Previous month</option>
-                    <option>This year</option>
-                    <option>Last 7 days</option>
-                    <option>All time</option>
-                </select>
-            </div>
-        </div>
-    </div>
-    <div class="container">
-        <h1 align="center">Employee Statistics</h1>
-        <div class="row">
-            <div class="col-2">
-
-            </div>
-            <div class="col-6"></div>
-        </div>
-    </div>
+                <li class="list-group-item">
+                            <h4>Total days at work: </h4> <p> {{ total_days}}</p>
+                </li>
+              </ul>
+        </section>   
+    </section>
+</div>
 {% endblock %}
+    
