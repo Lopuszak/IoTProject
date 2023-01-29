@@ -17,4 +17,4 @@ class Log(db.Model):
     time = db.Column(db.String(40))
 
     def __str__(self):
-        return "log: %d id_card: %s time: %s" % (self.id, self.card_id, self.time)
+        return "Log_%d card id: %s at time: %16s" % (self.id, self.card_id, self.time)
