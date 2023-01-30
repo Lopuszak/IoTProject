@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 # TODO UNCOMMENT
+import os
 import paho.mqtt.client as mqtt
 import tkinter
 from Handlers import *
@@ -53,27 +54,30 @@ def publish(card_id, timestamp):
 
 if __name__ == "__main__":
     # rfid = RFID()
+    os.system('sudo systemctl stop ip-oled.service')
+
     # TODO UNCOMMENT
-    # rfid = MainController()
+    rfid = MainController()
 
     # run_sender() this leave commeted
     connect_to_broker()
 
     while True:
-        inp = ''
-        # read = rfid.run()
-        # if read is not None:
-        #     print(f'{log_time} - read')
-        #     publish(read, formated_print(log_time))
-        while inp == "":
-            inp = input()
-        if inp.startswith('add '):
-            print(f'adding new user')
-
-        else:
+        # inp = ''
+        read = rfid.run()
+        if read is not None:
             log_time = datetime.now()
             print(f'{log_time} - read')
-            publish(inp, log_time)
+            publish(read, log_time)
+        # while inp == "":
+        #     inp = input()
+        # if inp.startswith('add '):
+        #     print(f'adding new user')
+
+        # else:
+        #     log_time = datetime.now()
+        #     print(f'{log_time} - read')
+        #     publish(inp, log_time)
         # time.sleep(0.1)
 
     disconnect_from_broker()

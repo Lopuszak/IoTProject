@@ -14,9 +14,6 @@ broker = "localhost"
 client = mqtt.Client()
 
 
-# Thw main window.
-# window = tkinter.Tk()
-
 
 def process_message(client, userdata, message):
     # Decode message.
@@ -67,17 +64,6 @@ def print_log_to_window():
     print_log_window.mainloop()
 
 
-# def create_main_window():
-#     window.geometry("250x100")
-#     window.title("RECEIVER")
-#     label = tkinter.Label(window, text="Listening to the MQTT")
-#     exit_button = tkinter.Button(window, text="Stop", command=window.quit)
-#     print_log_button = tkinter.Button(
-#         window, text="Print log", command=print_log_to_window)
-#
-#     label.pack()
-#     exit_button.pack(side="right")
-#     print_log_button.pack(side="right")
 
 
 def connect_to_broker():

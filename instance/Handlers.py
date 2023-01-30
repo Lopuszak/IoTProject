@@ -1,21 +1,20 @@
 #!/usr/bin/env python3
-# developed by Filip Strózik 2022
+# developed by Filip Strózik 2023
 
 import time
 from datetime import datetime, timedelta
-# TODO UNCOMMENT
-# import neopixel
-# import board
-# import busio
-# import w1thermsensor
-# import adafruit_bme280.advanced as adafruit_bme280
-# from mfrc522 import MFRC522
-# from config import *
-# import RPi.GPIO as GPIO
-# import lib.oled.SSD1331 as SSD1331
+import neopixel
+import board
+import busio
+import w1thermsensor
+import adafruit_bme280.advanced as adafruit_bme280
+from mfrc522 import MFRC522
+from config import *
+import RPi.GPIO as GPIO
+import lib.oled.SSD1331 as SSD1331
 from PIL import Image, ImageDraw, ImageFont
 
-ARIAL = ImageFont.truetype('fonts/arial.ttf')
+ARIAL = ImageFont.truetype('fonts/arial.ttf',13)
 
 
 def formated_print(mytime):
@@ -81,7 +80,7 @@ class Oled:
         self.display = SSD1331.SSD1331()
         self.display.Init()
         self.display.clear()
-        self.background = Image.new("RGB", (self.display.width, self.display.height), "GREY")
+        self.background = Image.new("RGB", (self.display.width, self.display.height), "GREEN")
         self.printer = ImageDraw.Draw(self.background)
 
     def show(self):
@@ -99,11 +98,12 @@ class Oled:
     def get_height(self):
         return self.display.height
 
-    def print_text(self, coordinates, text, color="BLACK", font=ARIAL):  # color="WHITE"
+    def print_text(self, coordinates, text, color="WHITE", font=ARIAL):  # color="WHITE"
+        print(text)
         self.printer.text(coordinates, text, fill=color, font=font)
 
     def clear_xy(self, coordinates):
-        self.printer.rectangle(coordinates, fill=(128, 128, 128))
+        self.printer.rectangle(coordinates, fill="GREEN")
 
     def place_image(self, path, x, y):
         image = Image.open(path)
@@ -125,14 +125,16 @@ class MainController:
         read_val = self.rfid.read()
 
         if read_val is not None:
+            self.oled.clear_xy(((0,0),(128,128)))
             self.rfid.print_read_rfid()
-            self.oled.print_text((self.PIXEL_RIGHT, 19), read_val)
+            self.oled.print_text((4, 20), str(read_val))
+            self.oled.show()
             GPIO.output(buzzerPin, False)
             self.led.animate_read()
 
         if self.rfid.initial_time + self.time_period < datetime.now():
             GPIO.output(buzzerPin, True)
-            self.oled.clear()
+            # self.oled.clear()
 
         if not self.rfid.is_being_read:
             self.led.pixels.fill(Color.black)
